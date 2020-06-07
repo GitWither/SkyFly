@@ -15,10 +15,10 @@ public:
 	// Sets default values for this character's properties
 	AAPlayer();
 
-	UPROPERTY(EditAnywhere, Category = "Thruster");
+	UPROPERTY(EditAnywhere, Category = "Thruster")
 	float ThrustForce;
 
-	UPROPERTY(EditAnywhere, Category = "Score");
+	UPROPERTY(EditAnywhere, Category = "Score")
 	int CurrentScore;
 
 protected:
