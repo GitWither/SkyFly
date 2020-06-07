@@ -2,6 +2,8 @@
 
 
 #include "APlayer.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/InputSettings.h"
 
 // Sets default values
 AAPlayer::AAPlayer() :
@@ -10,6 +12,8 @@ AAPlayer::AAPlayer() :
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	GetCharacterMovement()->GravityScale = 0.0f;
 }
 
 // Called when the game starts or when spawned
@@ -30,22 +34,12 @@ void AAPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis("MouseHorizontal", this, &AAPlayer::HorizontalRot);
-	PlayerInputComponent->BindAxis("MouseVertical", this, &AAPlayer::VerticalRot);
-	//PlayerInputComponent->BindKey(EKeys::F, IE_Pressed, this, &AAPlayer::TestScore);
+	PlayerInputComponent->BindAxis("MouseHorizontal", this, &APawn::AddControllerPitchInput);
+	PlayerInputComponent->BindAxis("MouseVertical", this, &APawn::AddControllerYawInput);
 }
 
 void AAPlayer::AddThrust(float force) {
-	UPrimitiveComponent* charMovement = (UPrimitiveComponent*)GetCharacterMovement();
-	charMovement->AddForce(GetActorForwardVector() * force);
-}
-
-void AAPlayer::HorizontalRot(float value) {
-	AddControllerPitchInput(value);
-}
-
-void AAPlayer::VerticalRot(float value) {
-	AddControllerYawInput(value);
+	GetCharacterMovement()->AddForce(GetActorForwardVector() * force);
 }
 
 void AAPlayer::AddScore(int score) {
